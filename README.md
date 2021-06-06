@@ -4,4 +4,4 @@ A proper modern OpenGL programmable pipeline approach in C++. This first example
 
 Referential video: https://youtu.be/0ghU2TxDiZA
 
-![alt text](https://github.com/postmortem-x/opengl-cpp-example/blob/master/sample.png)
+![alt text](https://github.com/postcode-x/opengl-cpp-example/blob/main/sample.png)
