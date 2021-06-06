@@ -1,0 +1,4 @@
+﻿  application.cpp
+C:\Users\IGNACIO\Google Drive\development\C++\opengl-cpp-example\opengl-example\src\application.cpp(122,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\IGNACIO\Google Drive\development\C++\opengl-cpp-example\opengl-example\src\application.cpp(342,21): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  opengl-example.vcxproj -> C:\Users\IGNACIO\Google Drive\development\C++\opengl-cpp-example\Debug\opengl-example.exe
