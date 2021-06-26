@@ -10,8 +10,6 @@
 #include <time.h>
 
 #define DATA_SIZE 108
-#define OFFSET_1 208127
-#define OFFSET_2 208345
 
 static unsigned int CompileShader(unsigned int type, const std::string& source)
 {
@@ -56,40 +54,6 @@ static unsigned int CreateShader(const std::string& vertexShader, const std::str
     return program;
 }
 
-std::vector<short> ReadVertices(unsigned int offset) {
-    
-    const char* filename = "res/data.bin";
-    std::vector<short> output(DATA_SIZE);
-    std::ifstream fileStream(filename, std::ios::binary);
-    
-    if (fileStream.is_open())
-    {
-        fileStream.seekg(offset);
-        fileStream.read((char*)&output[0], DATA_SIZE * sizeof(short));
-        fileStream.close();
-    }
-
-    return output;
-
-}
-
-std::vector<unsigned char> ReadIndices(unsigned int offset) {
-
-    const char* filename = "res/data.bin";
-    std::vector<unsigned char> output(DATA_SIZE);
-    std::ifstream fileStream(filename, std::ios::binary);
-
-    if (fileStream.is_open())
-    {
-        fileStream.seekg(offset);
-        fileStream.read((char*)&output[0], DATA_SIZE * sizeof(unsigned char));
-        fileStream.close();
-    }
-
-    return output;
-
-}
-
 int BeginOpenGL()
 {
     GLFWwindow* window;
@@ -115,21 +79,17 @@ int BeginOpenGL()
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
-    std::vector<short> vertices = ReadVertices(OFFSET_1);
-    float x_model[DATA_SIZE];
-    std::copy(vertices.begin(), vertices.end(), x_model);
-
     srand(time(NULL));
-    float x_colors[DATA_SIZE];
+    float colors[DATA_SIZE];
     for (int i = 0; i < DATA_SIZE; i++) {
-        x_colors[i] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);;
+        colors[i] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);;
     }
 
-    std::vector<unsigned char> indices = ReadIndices(OFFSET_2);
-    unsigned int x_indices_original[DATA_SIZE];
-    std::copy(indices.begin(), indices.end(), x_indices_original);
+    float model[DATA_SIZE] = { -26, -42, 144, 16, -42, 144, 26, -42, 144, 62, -42, 144, -14, -34, 144, 4, -34, 144, 34, -34, 144, 10, -11, 144, -6, 4, 144, 15, 7, 144, -2, 23, 144, -27, 48, 144, 4, 46, 144, 22, 46, 144, -52, 51, 144, -21, 51, 144, -3, 51, 144, 31, 51, 144, -26, -42, 154, 16, -42, 154, 26, -42, 154, 62, -42, 154, -14, -34, 154, 4, -34, 154, 34, -34, 154, 10, -11, 154, -6, 4, 154, 15, 7, 154, -2, 23, 154, -27, 48, 154, 4, 46, 154, 22, 46, 154, -52, 51, 154, -21, 51, 154, -3, 51, 154, 31, 51, 154 };
 
-    unsigned int x_indices[204] =
+    unsigned int indices_og[DATA_SIZE] = { 0, 1, 2, 3, 0, 4, 1, 5, 2, 6, 4, 8, 5, 7, 6, 7, 3, 9, 8, 14, 9, 13, 10, 11, 10, 12, 11, 15, 12, 16, 13, 17, 14, 15, 16, 17, 18, 19, 20, 21, 18, 22, 19, 23, 20, 24, 22, 26, 23, 25, 24, 25, 21, 27, 26, 32, 27, 31, 28, 29, 28, 30, 29, 33, 30, 34, 31, 35, 32, 33, 34, 35, 0, 18, 1, 19, 2, 20, 3, 21, 4, 22, 5, 23, 6, 24, 7, 25, 8, 26, 9, 27, 10, 28, 11, 29, 12, 30, 13, 31, 14, 32, 15, 33, 16, 34, 17, 35 };
+
+    unsigned int indices[204] =
     {
         0, 4, 5,
         5, 1, 0,
@@ -229,17 +189,17 @@ int BeginOpenGL()
 
     /* positions */
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(x_model), x_model, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(model), model, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(x_indices), x_indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (GLvoid*)(0));
 
     /* colors */
     glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(x_colors), x_colors, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (GLvoid*)(0));
@@ -251,17 +211,17 @@ int BeginOpenGL()
 
     /* positions */
     glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(x_model), x_model, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(model), model, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(x_indices_original), x_indices_original, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_og), indices_og, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (GLvoid*)(0));
 
     /* colors */
     glBindBuffer(GL_ARRAY_BUFFER, vbo[3]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(x_colors), x_colors, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (GLvoid*)(0));
@@ -352,20 +312,20 @@ int BeginOpenGL()
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model[0][0]);
-        glDrawElements(GL_TRIANGLES, sizeof(x_indices), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, nullptr);
 
         glm::mat4 model2 = glm::translate(glm::mat4(1.0f), glm::vec3(140.0f, 0.0f, 0.0f)) * model;
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model2[0][0]);
-        glDrawElements(GL_TRIANGLES, sizeof(x_indices), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, nullptr);
 
         glBindVertexArray(vao[1]);
 
         glm::mat4 model3 = glm::translate(glm::mat4(1.0f), glm::vec3(-140.0f, 0.0f, 0.0f)) * model;
 
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model3[0][0]);
-        glDrawElements(GL_LINES, sizeof(x_indices_original), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_LINES, sizeof(indices_og), GL_UNSIGNED_INT, nullptr);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
