@@ -85,7 +85,7 @@ int BeginOpenGL()
         colors[i] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);;
     }
 
-    float model[DATA_SIZE] = { -26, -42, 144, 16, -42, 144, 26, -42, 144, 62, -42, 144, -14, -34, 144, 4, -34, 144, 34, -34, 144, 10, -11, 144, -6, 4, 144, 15, 7, 144, -2, 23, 144, -27, 48, 144, 4, 46, 144, 22, 46, 144, -52, 51, 144, -21, 51, 144, -3, 51, 144, 31, 51, 144, -26, -42, 154, 16, -42, 154, 26, -42, 154, 62, -42, 154, -14, -34, 154, 4, -34, 154, 34, -34, 154, 10, -11, 154, -6, 4, 154, 15, 7, 154, -2, 23, 154, -27, 48, 154, 4, 46, 154, 22, 46, 154, -52, 51, 154, -21, 51, 154, -3, 51, 154, 31, 51, 154 };
+    float vertex_data[DATA_SIZE] = { -26, -42, 144, 16, -42, 144, 26, -42, 144, 62, -42, 144, -14, -34, 144, 4, -34, 144, 34, -34, 144, 10, -11, 144, -6, 4, 144, 15, 7, 144, -2, 23, 144, -27, 48, 144, 4, 46, 144, 22, 46, 144, -52, 51, 144, -21, 51, 144, -3, 51, 144, 31, 51, 144, -26, -42, 154, 16, -42, 154, 26, -42, 154, 62, -42, 154, -14, -34, 154, 4, -34, 154, 34, -34, 154, 10, -11, 154, -6, 4, 154, 15, 7, 154, -2, 23, 154, -27, 48, 154, 4, 46, 154, 22, 46, 154, -52, 51, 154, -21, 51, 154, -3, 51, 154, 31, 51, 154 };
 
     unsigned int indices_og[DATA_SIZE] = { 0, 1, 2, 3, 0, 4, 1, 5, 2, 6, 4, 8, 5, 7, 6, 7, 3, 9, 8, 14, 9, 13, 10, 11, 10, 12, 11, 15, 12, 16, 13, 17, 14, 15, 16, 17, 18, 19, 20, 21, 18, 22, 19, 23, 20, 24, 22, 26, 23, 25, 24, 25, 21, 27, 26, 32, 27, 31, 28, 29, 28, 30, 29, 33, 30, 34, 31, 35, 32, 33, 34, 35, 0, 18, 1, 19, 2, 20, 3, 21, 4, 22, 5, 23, 6, 24, 7, 25, 8, 26, 9, 27, 10, 28, 11, 29, 12, 30, 13, 31, 14, 32, 15, 33, 16, 34, 17, 35 };
 
@@ -189,7 +189,7 @@ int BeginOpenGL()
 
     /* positions */
     glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(model), model, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data), vertex_data, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -211,7 +211,7 @@ int BeginOpenGL()
 
     /* positions */
     glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(model), model, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data), vertex_data, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_og), indices_og, GL_STATIC_DRAW);
